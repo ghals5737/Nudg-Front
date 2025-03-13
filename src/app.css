@@ -1,0 +1,259 @@
+/* @import "tailwindcss"; */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    html {
+        font-family: "Roboto", "Spoqa Han Sans Neo", "ui-sans-serif";
+    }
+
+    body {
+        @apply flex flex-col min-h-screen overflow-y-scroll min-w-[1100px];
+    }
+
+    [data-theme="hbrc"] ul.notice>li {
+        @apply text-base text-blackText-100;
+    }
+
+    [data-theme="hbrc"] ul.notice {
+        @apply flex flex-col gap-1;
+    }
+
+    [data-theme="hbrc"] ul.notice>li:before {
+        content: "· ";
+    }
+
+    [data-theme="hbrc"] h2 {
+        @apply m-0 text-[24px] my-5 text-black font-medium;
+    }
+
+    [data-theme="hbrc"] h3 {
+        @apply flex flex-col justify-center h-10 mb-3 text-xl font-medium text-black;
+    }
+
+    [data-theme="hbrc"] h4 {
+        @apply text-lg text-black;
+    }
+
+    @font-face {
+        font-family: "Roboto";
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: local("Roboto"), local("Roboto-Regular"),
+            url(https://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Mu4mxM.woff) format("woff");
+        unicode-range: U+0041-005A, U+0061-007A, U+0030-0039;
+    }
+
+    @font-face {
+        font-family: "Roboto";
+        font-style: normal;
+        font-weight: 500;
+        font-display: swap;
+        src: local("Roboto Medium"), local("Roboto-Medium"),
+            url(https://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmEU9fBBc-.woff) format("woff");
+        unicode-range: U+0041-005A, U+0061-007A, U+0030-0039;
+    }
+
+    @font-face {
+        font-family: "Roboto";
+        font-style: normal;
+        font-weight: 700;
+        font-display: swap;
+        src: local("Roboto Bold"), local("Roboto-Bold"),
+            url(https://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmWUlfBBc-.woff) format("woff");
+        unicode-range: U+0041-005A, U+0061-007A, U+0030-0039;
+    }
+}
+
+@media print {
+    body {
+        min-width: auto !important;
+    }
+}
+
+@layer utilities {
+    .text-2xs {
+        font-size: 10px;
+    }
+
+    /*Tertiary Button*/
+    [data-theme="hbrc"] .btn {
+        @apply font-medium text-gray-700 bg-white border-base-300 btn-outline;
+    }
+
+    [data-theme="hbrc"] .btn.btn-2xs {
+        height: 20px;
+        width: 20px;
+        padding-left: 0px;
+        padding-right: 0px;
+        min-height: 20px;
+        font-size: 0.75rem
+            /* 12px */
+        ;
+    }
+
+    [data-theme="hbrc"] .btn:hover:active,
+    [data-theme="hbrc"] .btn-active {
+        background-color: hsla(0, 0%, 0%, 0.12);
+    }
+
+    [data-theme="hbrc"] .btn:hover {
+        @apply text-gray-700 border-base-300;
+        background-color: hsla(0, 0%, 0%, 0.04);
+    }
+
+    /*Primary Button */
+    [data-theme="hbrc"] .btn.btn-primary {
+        background-color: hsl(var(--p));
+        color: white;
+    }
+
+    [data-theme="hbrc"] .btn.btn-primary:hover {
+        background: linear-gradient(0deg, rgba(0, 0, 0, 0.12), rgba(0, 0, 0, 0.12)),
+            #0a49ad;
+    }
+
+    [data-theme="hbrc"] .btn.btn-primary:hover:active,
+    [data-theme="hbrc"] .btn-primary.btn-active {
+        background: linear-gradient(0deg,
+                rgba(255, 255, 255, 0.12),
+                rgba(255, 255, 255, 0.12)),
+            #0a49ad;
+    }
+
+    /*Secondary Button */
+    [data-theme="hbrc"] .btn.btn-secondary {
+        --s: var(--p) !important;
+        --sc: var(--p) !important;
+        --sf: var(--p) !important;
+        border-color: hsl(var(--p));
+    }
+
+    [data-theme="hbrc"] .btn.btn-secondary:hover {
+        --tw-bg-opacity: 0.2;
+        background-color: hsl(var(--p) / var(--tw-bg-opacity));
+        color: hsl(var(--p));
+    }
+
+    [data-theme="hbrc"] .btn.btn-secondary:hover:active,
+    [data-theme="hbrc"] .btn.btn-secondary.btn-active {
+        --tw-bg-opacity: 0.12;
+        background-color: hsl(var(--p) / var(--tw-bg-opacity));
+    }
+
+    /*Hbrc Button */
+    [data-theme="hbrc"] .btn.btn-hbrc {
+        @apply border;
+        borer-color: #e0e0e0;
+    }
+
+    [data-theme="hbrc"] .btn.btn-hbrc:hover,
+    [data-theme="hbrc"] .btn.btn-hbrc:active,
+    [data-theme="hbrc"] .btn.btn-hbrc.btn-active {
+        @apply outline-main-500 bg-main-100;
+        outline-style: solid;
+        outline-width: 2px;
+    }
+
+    [data-theme="hbrc"] .btn.btn-hbrc.btn-active:hover {
+        @apply bg-main-200;
+    }
+
+    /* Hbrc checkbox */
+    [data-theme="hbrc"] .checkbox {
+        @apply rounded-[1px] border-[1.5px] border-gray-700 w-[20px] h-[20px] box-border;
+    }
+
+    [data-theme="hbrc"] .checkbox:checked,
+    [data-theme="hbrc"] .checkbox[checked="true"] {
+        @apply rounded-[1px] border-[1.5px] border-gray-700;
+        --bc: var(--p);
+        border-color: hsl(var(--p));
+    }
+
+    /* Hbrc raido*/
+    [data-theme="hbrc"] .radio {
+        @apply border-[1.5px] border-gray-700 w-[20px] h-[20px] box-border;
+    }
+
+    [data-theme="hbrc"] .radio:checked,
+    [data-theme="hbrc"] .radio[checked="true"] {
+        @apply border-[1.5px] border-gray-700;
+        --bc: var(--p);
+        border-color: hsl(var(--p));
+    }
+
+    /*Hbrc input*/
+    [data-theme="hbrc"] .input {
+        @apply px-3 rounded bg-base-100 border-base-200 outline-base-200;
+        width: full !important;
+    }
+
+    /*HBRC modal-box */
+    [data-theme="hbrc"] .modal-box {
+        @apply bg-white;
+    }
+}
+
+@layer components {
+    .background {
+        @apply p-6 bg-white border border-solid rounded border-border-100;
+    }
+
+    .background-b1 {
+        background-color: hsla(var(--b1));
+    }
+
+    .background-b2 {
+        background-color: hsla(var(--b2));
+    }
+
+    .background-b3 {
+        background-color: hsla(var(--b3));
+    }
+
+    .background-bc {
+        background-color: hsla(var(--bc));
+    }
+
+    .inner-background {
+        @apply p-2 rounded;
+        background-color: hsla(var(--b3));
+    }
+
+    .input:focus-within {
+        outline: 2px solid hsla(var(--bc) / 0.2);
+        outline-offset: 2px;
+    }
+
+    .input-primary:focus-within {
+        outline: 2px solid hsla(var(--p) / 0.2);
+    }
+
+    .input-secondary:focus-within {
+        outline: 2px solid hsla(var(--p) / 0.2);
+    }
+
+    input::placeholder {
+        opacity: 0.5;
+    }
+
+    .all-center {
+        @apply flex items-center justify-center;
+    }
+
+    .gray-border {
+        @apply bg-white w-full flex justify-center border border-gray-300 rounded-[4px];
+    }
+
+    .btn-black {
+        @apply bg-gray-800;
+    }
+
+    .btn-black:active,
+    .btn-black:hover {
+        background-color: rgb(34 34 34 / var(--tw-bg-opacity)) !important;
+    }
+}
