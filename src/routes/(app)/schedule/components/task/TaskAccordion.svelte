@@ -1,15 +1,15 @@
 <script lang="ts">
-    import type { Task } from "$lib/type/schedule/schedule";
+    import type { Goal } from "$lib/type/schedule/schedule";
     import { ArrowUp, ArrowDown, CheckCircle, Clock, Circle, Menu, X, User, LogOut, Edit, Undo, Check, AlertTriangle, MoreVertical, Plus, Play, Pause } from 'lucide-svelte';    
     import { createEventDispatcher } from "svelte";
     import StepItem from "../step/StepItem.svelte";
 
-    export let task:Task;
+    export let goal:Goal;
 
     const dispatch = createEventDispatcher();
 
     const toggleAccordion=()=>{
-        task.isOpen=!task.isOpen
+      goal.isOpen=!goal.isOpen
     }
 
     const openTaskEditMenu=()=>{
@@ -19,41 +19,41 @@
       dispatch('updateElapsedTimes')          
     }
     const moveNextStep=(event:CustomEvent)=> {            
-      if (event.detail.stepIndex < task.steps.length - 1) {          
-          if (task.steps[event.detail.stepIndex + 1].status === "not-started") {
-            task.steps[event.detail.stepIndex + 1].status = "in-progress";
-            task.steps[event.detail.stepIndex + 1].startTime = new Date().toISOString();
-            task.steps[event.detail.stepIndex + 1].isPaused = false;
+      if (event.detail.stepIndex < goal.steps.length - 1) {          
+          if (goal.steps[event.detail.stepIndex + 1].status === "not-started") {
+            goal.steps[event.detail.stepIndex + 1].status = "in-progress";
+            goal.steps[event.detail.stepIndex + 1].startTime = new Date().toISOString();
+            goal.steps[event.detail.stepIndex + 1].isPaused = false;
           }
       }   
     }
 
     const inProgressStep=(event:CustomEvent)=>{
       event.detail.stepIndex      
-      const inProgressStep=task.steps.find(s => s.status === "in-progress" && !s.isPaused);
-      if (inProgressStep && inProgressStep.id !== task.steps[event.detail.stepIndex].id) {
+      const inProgressStep=goal.steps.find(s => s.status === "in-progress" && !s.isPaused);
+      if (inProgressStep && inProgressStep.id !== goal.steps[event.detail.stepIndex].id) {
             alert("이미 진행 중인 스텝이 있습니다. 먼저 완료하거나 일시정지해주세요.");
             return;
         }
-      task.steps[event.detail.stepIndex].status = "in-progress";
-      task.steps[event.detail.stepIndex].startTime = new Date().toISOString();
-      task.steps[event.detail.stepIndex].isPaused = false;
+      goal.steps[event.detail.stepIndex].status = "in-progress";
+      goal.steps[event.detail.stepIndex].startTime = new Date().toISOString();
+      goal.steps[event.detail.stepIndex].isPaused = false;
       updateElapsedTimes();
     }
 </script>
 
-<div class="bg-blue-50 rounded-lg overflow-hidden mb-4 {task.progress === 100 ? 'opacity-75' : ''}">              
+<div class="bg-blue-50 rounded-lg overflow-hidden mb-4 {goal.progress === 100 ? 'opacity-75' : ''}">              
     <div class=" text-blue-700 p-4">
       <div class="flex justify-between items-center">
         <div class="flex items-center gap-3">
             <button on:click={() => toggleAccordion()} class="focus:outline-none">
-            {#if task.isOpen}
+            {#if goal.isOpen}
                 <ArrowUp size={16} />
             {:else}
                 <ArrowDown size={16} />
             {/if}
             </button>                     
-            <span class="font-medium text-lg">{task.title}</span>
+            <span class="font-medium text-lg">{goal.title}</span>
             <button 
                 on:click={() => openTaskEditMenu()}
                 class="text-blue-700 hover:bg-blue-100 p-1 rounded-full"
@@ -64,28 +64,28 @@
         </div>
         
         <div class="flex items-center gap-4">                    
-          {#if task.progress > 0}
+          {#if goal.progress > 0}
             <div class="flex items-center gap-2">
-              <span>진행률: <span class="font-bold text-blue-700">{task.progress}%</span></span>
+              <span>진행률: <span class="font-bold text-blue-700">{goal.progress}%</span></span>
               <div class="w-24 h-2 bg-blue-100 rounded-full overflow-hidden">
                 <div 
-                  class="h-full {task.progress === 100 ? 'bg-green-600' : 'bg-blue-600'} rounded-full" 
-                  style="width: {task.progress}%"
+                  class="h-full {goal.progress === 100 ? 'bg-green-600' : 'bg-blue-600'} rounded-full" 
+                  style="width: {goal.progress}%"
                 ></div>
               </div>
             </div>
           {:else}
             <span class="text-gray-100">
-              <span class="font-medium text-gray-700">0</span>/{task.steps.length}
+              <span class="font-medium text-gray-700">0</span>/{goal.steps.length}
             </span>
           {/if}
         </div>
       </div>
     </div>
     
-    {#if task.isOpen}
+    {#if goal.isOpen}
       <div class="divide-y-1 border-gray-60">
-        {#each task.steps as step, stepIndex}
+        {#each goal.steps as step, stepIndex}
           <StepItem
             {step}
             {stepIndex}

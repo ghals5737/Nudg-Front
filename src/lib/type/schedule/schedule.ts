@@ -13,7 +13,7 @@ export type Step = {
     totalPausedMinutes?: number;
 };
 
-export type Task = {
+export type Goal = {
     title: string;
     progress: number;
     steps: Step[];

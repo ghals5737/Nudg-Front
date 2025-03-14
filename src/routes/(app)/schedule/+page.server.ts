@@ -1,8 +1,8 @@
-import type { Task } from "$lib/type/schedule/schedule";
+import type { Goal } from "$lib/type/schedule/schedule";
 import type { PageServerLoad } from "./$types";
 
 export const load = (async ({ locals, url }) => {    
-    let tasks: Task[] = [
+    let goals: Goal[] = [
         {
             title: "저녁만들기",
             progress: 33,
@@ -75,7 +75,7 @@ export const load = (async ({ locals, url }) => {
 
     return {
         context: {
-            tasks
+            goals
         }        
     };
 }) satisfies PageServerLoad;

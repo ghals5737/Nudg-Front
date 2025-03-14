@@ -2,8 +2,8 @@
     import { ArrowUp, ArrowDown, CheckCircle, Clock, Circle, Menu, X, User, LogOut, Edit, Undo, Check, AlertTriangle, MoreVertical, Plus, Play, Pause } from 'lucide-svelte';    
     import { onMount } from 'svelte';      
     import TaskAccordion from './components/task/TaskAccordion.svelte';      
-    import type { Task } from '$lib/type/schedule/schedule';
-    export let tasks:Task[]
+    import type { Goal } from '$lib/type/schedule/schedule';
+    export let goals:Goal[]
     
     function calculateElapsedTime(startTime: string, isPaused: boolean, totalPausedMinutes: number = 0): { text: string, minutes: number } {
       if (!startTime) return { text: "", minutes: 0 };
@@ -30,8 +30,8 @@
     }
     
     const updateElapsedTimes=()=> {
-      tasks.forEach(task => {
-        task.steps.forEach(step => {
+      goals.forEach(goal => {
+        goal.steps.forEach(step => {
           if (step.status === "in-progress" && !step.isPaused) {
             const elapsed = calculateElapsedTime(step.startTime, step.isPaused, step.totalPausedMinutes || 0);
             step.elapsedTime = elapsed.text;
@@ -60,13 +60,13 @@
       });
       
       
-      tasks.forEach(task => {
-        const totalSteps = task.steps.length;
-        const completedSteps = task.steps.filter(step => step.status === "completed").length;
-        task.progress = Math.round((completedSteps / totalSteps) * 100);
+      goals.forEach(goal => {
+        const totalSteps = goal.steps.length;
+        const completedSteps = goal.steps.filter(step => step.status === "completed").length;
+        goal.progress = Math.round((completedSteps / totalSteps) * 100);
       });
       
-      tasks = [...tasks];
+      goals = [...goals];
     }
     
       
@@ -93,9 +93,9 @@
         </button>
       </div>
       
-      {#each tasks as task, taskIndex}
+      {#each goals as goal, taskIndex}
         <TaskAccordion 
-          {task}
+          {goal}
           on:updateElapsedTimes={updateElapsedTimes}
         >            
         </TaskAccordion>

@@ -6,7 +6,7 @@
     import Schedule from './Schedule.svelte';
    
     export let data: PageData
-    let tasks=data.context.tasks
+    let goals=data.context.goals
     
     let mobileMenuOpen = false;   
     let editingStepId: number | null = null;
@@ -46,6 +46,6 @@
   <svelte:window on:click={handleClickOutside} />
   
   <Schedule
-    {tasks}
+    {goals}
   >
   </Schedule>
