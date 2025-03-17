@@ -1,8 +1,5 @@
-<script lang="ts">
-    import { ArrowUp, ArrowDown, CheckCircle, Clock, Circle, Menu, X, User, LogOut, Edit, Undo, Check, AlertTriangle, MoreVertical, Plus, Play, Pause } from 'lucide-svelte';    
-    import { onMount } from 'svelte';      
-    import TaskAccordion from './components/task/TaskAccordion.svelte';
-      import type { PageData } from './$types';
+<script lang="ts">    
+    import type { PageData } from './$types';
     import Schedule from './Schedule.svelte';
    
     export let data: PageData

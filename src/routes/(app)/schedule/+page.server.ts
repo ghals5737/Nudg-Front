@@ -4,6 +4,7 @@ import type { PageServerLoad } from "./$types";
 export const load = (async ({ locals, url }) => {    
     let goals: Goal[] = [
         {
+            id:0,
             title: "저녁만들기",
             progress: 33,
             isOpen: true,
@@ -38,6 +39,7 @@ export const load = (async ({ locals, url }) => {
             ]
         },
         {
+            id:1,
             title: "집가기",
             progress: 0,
             isOpen: false,

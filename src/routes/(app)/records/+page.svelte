@@ -1,24 +1,23 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { ArrowUp, ArrowDown, CheckCircle, Circle, Menu, X, User, LogOut, Calendar, ChevronLeft, ChevronRight, BarChart2, PieChart, LineChart, Clock, Smile, Frown, Meh, Award, TrendingUp, TrendingDown, Filter, Search, List, Grid, BookOpen } from 'lucide-svelte';    
+    import type { PageData } from './$types';
     
-   
+    export let data: PageData
     
-    // 현재 날짜 및 선택된 날짜
+    let goalRecords=data.context.goalRecords
+    let taskRecords=data.context.taskRecords
+    let habitRecords=data.context.habitRecords
+        
     const today = new Date();
     let currentMonth = today.getMonth();
     let currentYear = today.getFullYear();
     let selectedDate = new Date(today).toISOString().split('T')[0];
     
-    // 현재 보기 모드 (일간, 주간, 월간)
     let viewMode = 'daily';
     
-    // 현재 선택된 탭 (일정, 작업, 습관, 집중, 감정)
     let activeTab = 'all';
     
-   
-    
-    // 이전 달로 이동
     function prevMonth() {
       if (currentMonth === 0) {
         currentMonth = 11;
@@ -28,7 +27,6 @@
       }
     }
     
-    // 다음 달로 이동
     function nextMonth() {
       if (currentMonth === 11) {
         currentMonth = 0;
@@ -38,13 +36,11 @@
       }
     }
     
-    // 날짜 선택
     function selectDate(date:any) {
       selectedDate = date;
       viewMode = 'daily';
     }
     
-    // 오늘로 이동
     function goToToday() {
       currentMonth = today.getMonth();
       currentYear = today.getFullYear();
@@ -93,7 +89,7 @@
         const isToday = date === new Date().toISOString().split('T')[0];
         
         // 이벤트, 습관, 작업 데이터 확인
-        const hasEvents = dailySchedules.some(schedule => schedule.date === date);
+        const hasEvents = goalRecords.some(goal => goal.date === date);
         const hasHabits = habitRecords.some(record => record.date === date);
         const hasTasks = taskRecords.some(task => task.date === date);
         
@@ -133,112 +129,6 @@
     
     // 월 이름
     const monthNames = ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
-    
-    // 샘플 데이터: 일정 기록
-    const dailySchedules = [
-      {
-        date: '2025-03-13',
-        tasks: [
-          { id: 1, title: '저녁만들기', progress: 33, steps: 3, completedSteps: 1 },
-          { id: 2, title: '집가기', progress: 0, steps: 3, completedSteps: 0 }
-        ],
-        completionRate: 16.7,
-        totalTime: 120,
-        plannedTime: 205
-      },
-      {
-        date: '2025-03-12',
-        tasks: [
-          { id: 3, title: '회의 준비', progress: 100, steps: 4, completedSteps: 4 },
-          { id: 4, title: '보고서 작성', progress: 75, steps: 4, completedSteps: 3 }
-        ],
-        completionRate: 87.5,
-        totalTime: 240,
-        plannedTime: 210
-      },
-      {
-        date: '2025-03-11',
-        tasks: [
-          { id: 5, title: '쇼핑하기', progress: 100, steps: 3, completedSteps: 3 },
-          { id: 6, title: '청소하기', progress: 100, steps: 2, completedSteps: 2 }
-        ],
-        completionRate: 100,
-        totalTime: 180,
-        plannedTime: 200
-      },
-      {
-        date: '2025-03-10',
-        tasks: [
-          { id: 7, title: '이메일 확인', progress: 100, steps: 1, completedSteps: 1 },
-          { id: 8, title: '병원 방문', progress: 100, steps: 2, completedSteps: 2 }
-        ],
-        completionRate: 100,
-        totalTime: 150,
-        plannedTime: 180
-      }
-    ];
-    
-    // 샘플 데이터: 작업 기록
-    const taskRecords = [
-      {
-        date: '2025-03-13',
-        tasks: [
-          { id: 1, title: '프로젝트 A 기획', status: 'in-progress', project: '마케팅', dueDate: '2025-03-20', timeSpent: 120 },
-          { id: 2, title: '디자인 검토', status: 'completed', project: '디자인', dueDate: '2025-03-13', timeSpent: 60 }
-        ],
-        completionRate: 50
-      },
-      {
-        date: '2025-03-12',
-        tasks: [
-          { id: 3, title: '코드 리뷰', status: 'completed', project: '개발', dueDate: '2025-03-12', timeSpent: 90 },
-          { id: 4, title: '버그 수정', status: 'completed', project: '개발', dueDate: '2025-03-14', timeSpent: 120 }
-        ],
-        completionRate: 100
-      },
-      {
-        date: '2025-03-11',
-        tasks: [
-          { id: 5, title: '고객 미팅', status: 'completed', project: '영업', dueDate: '2025-03-11', timeSpent: 60 },
-          { id: 6, title: '제안서 작성', status: 'completed', project: '영업', dueDate: '2025-03-15', timeSpent: 180 }
-        ],
-        completionRate: 100
-      }
-    ];
-    
-    // 샘플 데이터: 습관 기록
-    const habitRecords = [
-      {
-        date: '2025-03-13',
-        habits: [
-          { id: 1, name: '물 마시기', category: 'health', completed: false, streak: 5 },
-          { id: 2, name: '명상하기', category: 'mindfulness', completed: false, streak: 3 },
-          { id: 3, name: '독서하기', category: 'learning', completed: true, streak: 7 },
-          { id: 4, name: '가족에게 전화하기', category: 'social', completed: false, streak: 2 }
-        ],
-        completionRate: 25
-      },
-      {
-        date: '2025-03-12',
-        habits: [
-          { id: 1, name: '물 마시기', category: 'health', completed: true, streak: 5 },
-          { id: 2, name: '명상하기', category: 'mindfulness', completed: true, streak: 3 },
-          { id: 3, name: '독서하기', category: 'learning', completed: true, streak: 6 },
-          { id: 4, name: '가족에게 전화하기', category: 'social', completed: true, streak: 1 }
-        ],
-        completionRate: 100
-      },
-      {
-        date: '2025-03-11',
-        habits: [
-          { id: 1, name: '물 마시기', category: 'health', completed: true, streak: 4 },
-          { id: 2, name: '명상하기', category: 'mindfulness', completed: true, streak: 2 },
-          { id: 3, name: '독서하기', category: 'learning', completed: true, streak: 5 },
-          { id: 4, name: '가족에게 전화하기', category: 'social', completed: false, streak: 0 }
-        ],
-        completionRate: 75
-      }
-    ];
     
     // 샘플 데이터: 집중 시간 기록
     const focusRecords = [
@@ -349,9 +239,9 @@
     };
     
     // 선택된 날짜의 데이터 가져오기
-    $: selectedDateSchedule = dailySchedules.find(schedule => schedule.date === selectedDate) || {
+    $: selectedDateGoals = goalRecords.find(goal => goal.date === selectedDate) || {
       date: selectedDate,
-      tasks: [],
+      goals: [],
       completionRate: 0,
       totalTime: 0,
       plannedTime: 0
@@ -652,7 +542,7 @@
             하루 일정
             </h3>
             
-            {#if selectedDateSchedule.tasks.length === 0}
+            {#if selectedDateGoals.goals.length === 0}
             <p class="text-gray-500">이 날짜에 등록된 일정이 없습니다.</p>
             {:else}
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
@@ -662,39 +552,39 @@
                     <div class="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
                     <div 
                         class="h-full bg-blue-600 rounded-full" 
-                        style="width: {selectedDateSchedule.completionRate}%"
+                        style="width: {selectedDateGoals.completionRate}%"
                     ></div>
                     </div>
-                    <span class="font-medium">{selectedDateSchedule.completionRate}%</span>
+                    <span class="font-medium">{selectedDateGoals.completionRate}%</span>
                 </div>
                 </div>
                 
                 <div class="bg-gray-50 p-4 rounded-lg">
                 <p class="text-sm text-gray-500 mb-1">소요 시간</p>
-                <p class="font-medium">{formatTime(selectedDateSchedule.totalTime)}</p>
+                <p class="font-medium">{formatTime(selectedDateGoals.totalTime)}</p>
                 </div>
                 
                 <div class="bg-gray-50 p-4 rounded-lg">
                 <p class="text-sm text-gray-500 mb-1">계획 대비</p>
                 <div class="flex items-center gap-2">
-                    <span class="font-medium">{formatTime(selectedDateSchedule.totalTime)}</span>
+                    <span class="font-medium">{formatTime(selectedDateGoals.totalTime)}</span>
                     <span class="text-gray-500">/</span>
-                    <span class="text-gray-500">{formatTime(selectedDateSchedule.plannedTime)}</span>
+                    <span class="text-gray-500">{formatTime(selectedDateGoals.plannedTime)}</span>
                 </div>
                 </div>
             </div>
             
             <div class="space-y-3">
-                {#each selectedDateSchedule.tasks as task}
+                {#each selectedDateGoals.goals as goal}
                 <div class="border border-gray-100 rounded-lg p-3">
                     <div class="flex justify-between items-center mb-2">
-                    <h4 class="font-medium">{task.title}</h4>
-                    <span class="text-sm">{task.completedSteps}/{task.steps} 단계</span>
+                    <h4 class="font-medium">{goal.title}</h4>
+                    <span class="text-sm">{0}/{goal.steps.length} 단계</span>
                     </div>
                     <div class="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
                     <div 
                         class="h-full bg-blue-600 rounded-full" 
-                        style="width: {task.progress}%"
+                        style="width: {goal.progress}%"
                     ></div>
                     </div>
                 </div>
@@ -735,8 +625,8 @@
                     <div>
                         <h4 class="font-medium">{task.title}</h4>
                         <div class="flex items-center gap-2 mt-1">
-                        <span class={`text-xs px-2 py-0.5 rounded-full ${getProjectColor(task.project)}`}>
-                            {task.project}
+                        <span class={`text-xs px-2 py-0.5 rounded-full ${getProjectColor(task.priority)}`}>
+                            {task.category}
                         </span>
                         <span class={`text-xs px-2 py-0.5 rounded-full ${getStatusColor(task.status)}`}>
                             {task.status === 'completed' ? '완료' : task.status === 'in-progress' ? '진행중' : '미시작'}
@@ -745,7 +635,7 @@
                     </div>
                     <div class="text-right">
                         <p class="text-sm text-gray-500">소요 시간</p>
-                        <p class="font-medium">{formatTime(task.timeSpent)}</p>
+                        <p class="font-medium">{formatTime(task.dueDate)}</p>
                     </div>
                     </div>
                 </div>
@@ -787,10 +677,10 @@
                         <h4 class="font-medium">{habit.name}</h4>
                         <div class="flex items-center gap-2 mt-1">
                         <span class={`text-xs px-2 py-0.5 rounded-full ${getCategoryColor(habit.category)}`}>
-                            {habit.category === 'health' ? '건강' : 
-                            habit.category === 'mindfulness' ? '마음챙김' : 
-                            habit.category === 'learning' ? '학습' : 
-                            habit.category === 'social' ? '사회성' : '생산성'}
+                            {habit.category === 0 ? '건강' : 
+                            habit.category === 1 ? '마음챙김' : 
+                            habit.category === 2 ? '학습' : 
+                            habit.category === 3 ? '사회성' : '생산성'}
                         </span>
                         {#if habit.streak > 0}
                             <span class="text-xs px-2 py-0.5 rounded-full bg-orange-100 text-orange-700 flex items-center gap-1">

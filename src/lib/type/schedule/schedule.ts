@@ -14,6 +14,7 @@ export type Step = {
 };
 
 export type Goal = {
+    id: number;
     title: string;
     progress: number;
     steps: Step[];
