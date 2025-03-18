@@ -2,6 +2,7 @@
     import { onMount } from 'svelte';
     import { ArrowUp, ArrowDown, CheckCircle, Circle, Menu, X, User, LogOut, Calendar, ChevronLeft, ChevronRight, BarChart2, PieChart, LineChart, Clock, Smile, Frown, Meh, Award, TrendingUp, TrendingDown, Filter, Search, List, Grid, BookOpen } from 'lucide-svelte';    
     import type { PageData } from './$types';
+    import RecordCalendar from './components/RecordCalendar.svelte';
     
     export let data: PageData
     
@@ -18,23 +19,7 @@
     
     let activeTab = 'all';
     
-    function prevMonth() {
-      if (currentMonth === 0) {
-        currentMonth = 11;
-        currentYear--;
-      } else {
-        currentMonth--;
-      }
-    }
     
-    function nextMonth() {
-      if (currentMonth === 11) {
-        currentMonth = 0;
-        currentYear++;
-      } else {
-        currentMonth++;
-      }
-    }
     
     function selectDate(date:any) {
       selectedDate = date;
@@ -48,24 +33,20 @@
       viewMode = 'daily';
     }
     
-    // 탭 변경
     function changeTab(tab:any) {
       activeTab = tab;
     }
-    
-    // 보기 모드 변경
+
     function changeViewMode(mode:any) {
       viewMode = mode;
     }
     
-    // 캘린더 날짜 생성
     function getCalendarDates(year:any, month:any) {
       const firstDay = new Date(year, month, 1);
       const lastDay = new Date(year, month + 1, 0);
       const daysInMonth = lastDay.getDate();
       const startingDayOfWeek = firstDay.getDay();
-      
-      // 이전 달의 마지막 날짜들
+    
       const prevMonthLastDay = new Date(year, month, 0).getDate();
       const prevMonthDays = Array.from({ length: startingDayOfWeek }, (_, i) => {
         const day = prevMonthLastDay - startingDayOfWeek + i + 1;
@@ -81,14 +62,12 @@
           hasTasks: false
         };
       });
-      
-      // 현재 달의 날짜들
+    
       const currentMonthDays = Array.from({ length: daysInMonth }, (_, i) => {
         const day = i + 1;
         const date = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
         const isToday = date === new Date().toISOString().split('T')[0];
-        
-        // 이벤트, 습관, 작업 데이터 확인
+    
         const hasEvents = goalRecords.some(goal => goal.date === date);
         const hasHabits = habitRecords.some(record => record.date === date);
         const hasTasks = taskRecords.some(task => task.date === date);
@@ -103,8 +82,7 @@
           hasTasks
         };
       });
-      
-      // 다음 달의 시작 날짜들
+    
       const remainingDays = 42 - (prevMonthDays.length + currentMonthDays.length);
       const nextMonthDays = Array.from({ length: remainingDays }, (_, i) => {
         const day = i + 1;
@@ -124,13 +102,10 @@
       return [...prevMonthDays, ...currentMonthDays, ...nextMonthDays];
     }
     
-    // 요일 이름
     const weekdays = ['일', '월', '화', '수', '목', '금', '토'];
     
-    // 월 이름
     const monthNames = ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'];
     
-    // 샘플 데이터: 집중 시간 기록
     const focusRecords = [
       {
         date: '2025-03-13',
@@ -162,11 +137,10 @@
       }
     ];
     
-    // 샘플 데이터: 감정 & 에너지 기록
     const moodRecords = [
       {
         date: '2025-03-13',
-        mood: 'neutral', // happy, neutral, sad
+        mood: 'neutral', 
         energy: {
           morning: 7,
           afternoon: 5,
@@ -196,7 +170,6 @@
       }
     ];
     
-    // 샘플 데이터: 성취 뱃지
     const achievements = [
       { id: 1, title: '7일 연속 독서 습관 달성!', date: '2025-03-13', icon: '📚', type: 'streak' },
       { id: 2, title: '이번 주 작업 완료율 90% 달성!', date: '2025-03-12', icon: '🎯', type: 'completion' },
@@ -204,7 +177,6 @@
       { id: 4, title: '첫 번째 습관 등록 완료!', date: '2025-03-10', icon: '🌱', type: 'milestone' }
     ];
     
-    // 샘플 데이터: 주간 통계
     const weeklyStats = {
       currentWeek: {
         taskCompletion: 85,
@@ -226,7 +198,6 @@
       }
     };
     
-    // 샘플 데이터: 월간 통계
     const monthlyStats = {
       habitStreaks: [
         { name: '물 마시기', streak: 15, category: 'health' },
@@ -238,7 +209,6 @@
       totalFocusHours: 42
     };
     
-    // 선택된 날짜의 데이터 가져오기
     $: selectedDateGoals = goalRecords.find(goal => goal.date === selectedDate) || {
       date: selectedDate,
       goals: [],
@@ -277,13 +247,10 @@
       notes: ''
     };
     
-    // 캘린더 날짜 계산
     $: calendarDates = getCalendarDates(currentYear, currentMonth);
     
-    // 선택된 날짜의 성취 뱃지
     $: selectedDateAchievements = achievements.filter(achievement => achievement.date === selectedDate);
     
-    // 감정 아이콘 가져오기
     function getMoodIcon(mood:any) {
       switch(mood) {
         case 'happy': return Smile;
@@ -292,7 +259,6 @@
       }
     }
     
-    // 감정 색상 가져오기
     function getMoodColor(mood:any) {
       switch(mood) {
         case 'happy': return 'text-green-500';
@@ -301,7 +267,6 @@
       }
     }
     
-    // 카테고리 색상 가져오기
     function getCategoryColor(category:any) {
       switch(category) {
         case 'health': return 'bg-green-100 text-green-700';
@@ -313,7 +278,6 @@
       }
     }
     
-    // 프로젝트 색상 가져오기
     function getProjectColor(project:any) {
       switch(project) {
         case '마케팅': return 'bg-blue-100 text-blue-700';
@@ -324,7 +288,6 @@
       }
     }
     
-    // 상태 색상 가져오기
     function getStatusColor(status:any) {
       switch(status) {
         case 'completed': return 'bg-green-100 text-green-700';
@@ -335,7 +298,6 @@
       }
     }
     
-    // 시간 포맷팅
     function formatTime(minutes:any) {
       const hours = Math.floor(minutes / 60);
       const mins = minutes % 60;
@@ -347,7 +309,6 @@
       return `${mins}분`;
     }
     
-    // 날짜 포맷팅
     function formatDate(dateString:any) {
       const date = new Date(dateString);
       const year = date.getFullYear();
@@ -357,18 +318,15 @@
       return `${year}년 ${month}월 ${day}일`;
     }
     
-    // 요일 가져오기
     function getDayOfWeek(dateString:any) {
       const date = new Date(dateString);
       return weekdays[date.getDay()];
     }
     
-    // 변화율 화살표 아이콘
     function getChangeIcon(change:any) {
       return change >= 0 ? TrendingUp : TrendingDown;
     }
     
-    // 변화율 색상
     function getChangeColor(change:any) {
       return change >= 0 ? 'text-green-500' : 'text-red-500';
     }
@@ -377,14 +335,12 @@
   
 <div class="w-full max-w-[1200px] px-4">
 <div class="bg-white rounded-lg shadow-sm p-6">
-    <!-- 헤더 -->
     <div class="flex items-center justify-between text-[#414141] text-lg mb-6">
     <div class="flex items-center">
         <span class="h-5 border-l-2 border-[#0056A5] mr-2"></span>
         <h1 class="font-semibold">기록 보기</h1>
     </div>
-    
-    <!-- 보기 모드 선택 -->
+
     <div class="flex gap-2">
         <button 
         on:click={() => changeViewMode('daily')}
@@ -407,71 +363,17 @@
     </div>
     </div>
     
-    <!-- 캘린더 및 날짜 선택 -->
-    <div class="mb-6">
-    <div class="flex items-center justify-between mb-4">
-        <div class="flex items-center gap-2">
-        <button 
-            on:click={prevMonth}
-            class="p-1.5 rounded-full hover:bg-gray-100"
-        >
-            <ChevronLeft size={20} />
-        </button>
-        <h2 class="text-lg font-medium">{currentYear}년 {monthNames[currentMonth]}</h2>
-        <button 
-            on:click={nextMonth}
-            class="p-1.5 rounded-full hover:bg-gray-100"
-        >
-            <ChevronRight size={20} />
-        </button>
-        </div>
-        
-        <button 
-        on:click={goToToday}
-        class="px-3 py-1.5 bg-blue-100 text-blue-700 rounded-md text-sm font-medium hover:bg-blue-200"
-        >
-        오늘
-        </button>
-    </div>
     
-    <!-- 캘린더 -->
-    <div class="grid grid-cols-7 gap-1">
-        {#each weekdays as day}
-        <div class="text-center py-2 text-sm font-medium text-gray-500">
-            {day}
-        </div>
-        {/each}
-        
-        {#each calendarDates as date}
-        <button 
-            on:click={() => selectDate(date.date)}
-            class={`
-            aspect-square p-1 rounded-md relative
-            ${date.isCurrentMonth ? 'bg-white hover:bg-gray-50' : 'bg-gray-50 text-gray-400'}
-            ${date.isToday ? 'border-2 border-blue-500' : 'border border-gray-100'}
-            ${date.date === selectedDate ? 'bg-blue-50' : ''}
-            `}
-        >
-            <div class="flex flex-col h-full">
-            <span class="text-sm">{date.day}</span>
-            
-            {#if date.hasEvents || date.hasHabits || date.hasTasks}
-                <div class="flex justify-center gap-1 mt-auto">
-                {#if date.hasEvents}
-                    <span class="w-1.5 h-1.5 rounded-full bg-blue-500"></span>
-                {/if}
-                {#if date.hasHabits}
-                    <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
-                {/if}
-                {#if date.hasTasks}
-                    <span class="w-1.5 h-1.5 rounded-full bg-yellow-500"></span>
-                {/if}
-                </div>
-            {/if}
-            </div>
-        </button>
-        {/each}
-    </div>
+
+    <RecordCalendar
+        {viewMode}
+        {currentMonth}
+        {currentYear}
+        {calendarDates}
+    >
+    </RecordCalendar>        
+    
+    
     </div>
     
     <!-- 탭 메뉴 -->
@@ -869,7 +771,6 @@
             </div>
         </div>
         
-        <!-- 집중 시간 -->
         <div class="bg-white border border-gray-100 rounded-lg p-4">
             <h3 class="text-lg font-medium mb-3">총 집중 시간</h3>
             <div class="flex items-center justify-between mb-4">
@@ -1037,7 +938,7 @@
     </div>
     {/if}
 </div>
-</div>
+
 
 <style lang="postcss">
     :global(body) {
