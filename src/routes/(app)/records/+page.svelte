@@ -346,19 +346,19 @@
         on:click={() => changeViewMode('daily')}
         class={`px-3 py-1.5 rounded-md text-sm font-medium ${viewMode === 'daily' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
         >
-        일간
+            일간
         </button>
         <button 
         on:click={() => changeViewMode('weekly')}
         class={`px-3 py-1.5 rounded-md text-sm font-medium ${viewMode === 'weekly' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
         >
-        주간
+            주간
         </button>
         <button 
         on:click={() => changeViewMode('monthly')}
         class={`px-3 py-1.5 rounded-md text-sm font-medium ${viewMode === 'monthly' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'}`}
         >
-        월간
+            월간
         </button>
     </div>
     </div>
