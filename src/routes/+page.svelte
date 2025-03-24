@@ -151,13 +151,7 @@
                 <img class="h-5 w-5" src="/placeholder.svg?height=20&width=20" alt="Google 로고" />
                 <span class="ml-2">Google</span>
               </a>
-            </div>
-            <div>
-              <a href="#" class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
-                <img class="h-5 w-5" src="/placeholder.svg?height=20&width=20" alt="Kakao 로고" />
-                <span class="ml-2">Kakao</span>
-              </a>
-            </div>
+            </div>           
           </div>
         </div>
         

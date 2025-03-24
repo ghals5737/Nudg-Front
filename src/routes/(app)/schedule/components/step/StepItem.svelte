@@ -71,7 +71,7 @@
 
 </script>
 
-<div class="p-4 flex items-center justify-between bg-white {step.status === 'in-progress' && !step.isPaused ? 'bg-blue-50' : ''} {step.status === 'completed' ? 'bg-gray-50' : ''}">
+<div class="p-4 flex items-center justify-between bg-white {step.status === 'in-progress' && !step.isPaused ? 'bg-gray-50' : ''} {step.status === 'completed' ? 'bg-gray-50' : ''}">
 <div class="flex items-center gap-3">
     {#if step.status === "completed"}
     <CheckCircle class="text-green-500" size={18} />
