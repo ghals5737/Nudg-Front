@@ -18,6 +18,7 @@
       { name: "작업관리", href: "/tasks", active: false },      
       { name: "습관", href: "/habits", active: false },
       { name: "기록 보기", href: "/records", active: false },      
+      { name: "cbt", href: "/cbt", active: false }, 
     ];   
     
     function toggleMobileMenu() {
