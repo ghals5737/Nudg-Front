@@ -1,6 +1,7 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { Menu, X, User, LogOut, Plus, Edit, Trash, Calendar, ChevronLeft, ChevronRight, BarChart2, BookOpen, Clock, Search, Filter, ArrowRight, Check, AlertCircle, Bookmark, Star, Heart, ThumbsUp, ThumbsDown, Frown, Meh, Smile, Activity, Brain, Lightbulb, RefreshCw, Save, Play, Pause, Award, CheckCircle, XCircle, HelpCircle, Info, MessageCircle, PenTool, Zap, Moon, Sun, Wind, Layers, FileText, List, MoreHorizontal, ChevronDown, ChevronUp, Maximize, Minimize, Undo } from 'lucide-svelte';    
+    
     // 사용자 정보
     const user = {
       name: "김누지",

@@ -1,59 +1,17 @@
-# NUDG-FRONT
-# create-svelte
+# 기능 정리
 
-Everything you need to build a Svelte library, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+## 1. 하루일정관리
 
-Read more about creating a library [in the docs](https://svelte.dev/docs/kit/packaging).
+![2025-03-26-nudg-schedule.png](readme_img/2025-03-26-nudg-schedule.png)
 
-## Creating a project
+### 주요 기능
 
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npx sv create
-
-# create a new project in my-app
-npx sv create my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-Everything inside `src/lib` is part of your library, everything inside `src/routes` can be used as a showcase or preview app.
-
-## Building
-
-To build your library:
-
-```bash
-npm run package
-```
-
-To create a production version of your showcase app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
-
-## Publishing
-
-Go into the `package.json` and give your package the desired name through the `"name"` option. Also consider adding a `"license"` field and point it to a `LICENSE` file which you can create from a template (one popular option is the [MIT license](https://opensource.org/license/mit/)).
-
-To publish your library to [npm](https://www.npmjs.com):
-
-```bash
-npm publish
-```
+1. 하루일정을 Task단위로 관리
+    1. 그밑의 하위 단계를 Step으로 분리
+    2. Step은 진행시간,상태값,정지,시작,완료를 체크
+    3. 다음 Step으로 가기 위해선 그전 Step을 반드시 완료해야함(완료상태)
+2. 하루안에 다못하면 일정은전부 사라짐 기록보기에는 미완료로 남아있음
+    1. 00시 기준으로 초기화 (오후 12시)
+    2. 하루안에 Task을 완료 못하면  미완료된 Task들은 미완료상태 그대로 기록보기로 이전
+3. Task CRUD 기능
+    1. Task들을 수정,생성,삭제 가능 밑의 Step들도 가능
